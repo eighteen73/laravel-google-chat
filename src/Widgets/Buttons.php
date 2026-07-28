@@ -13,8 +13,7 @@ class Buttons extends AbstractWidget
     /**
      * Add one or more buttons.
      *
-     * @param \NotificationChannels\GoogleChat\Components\Button\AbstractButton|\NotificationChannels\GoogleChat\Components\Button\AbstractButton[] $button
-     * @return self
+     * @param  AbstractButton|AbstractButton[]  $button
      */
     public function button($button): Buttons
     {
@@ -30,8 +29,7 @@ class Buttons extends AbstractWidget
     /**
      * Return a new Buttons widget instance.
      *
-     * @param \NotificationChannels\GoogleChat\Components\Button\AbstractButton|\NotificationChannels\GoogleChat\Components\Button\AbstractButton[]|null $buttons
-     * @return self
+     * @param  AbstractButton|AbstractButton[]|null  $buttons
      */
     public static function create($buttons = null): Buttons
     {

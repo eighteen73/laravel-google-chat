@@ -26,7 +26,7 @@ abstract class AbstractWidget implements Arrayable
                 ->explode('\\')
                 ->last()
         )
-        ->camel();
+            ->camel();
 
         return [
             (string) $widgetName => $this->payload,

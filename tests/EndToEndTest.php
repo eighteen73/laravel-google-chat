@@ -8,11 +8,11 @@ use NotificationChannels\GoogleChat\Tests\Fixtures\TestEndToEndNotification;
 class EndToEndTest extends TestCase
 {
     /**
-     * @var \NotificationChannels\GoogleChat\Tests\Fixtures\TestEndToEndNotification
+     * @var TestEndToEndNotification
      */
     protected $notification;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

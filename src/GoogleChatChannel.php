@@ -12,14 +12,14 @@ class GoogleChatChannel
 {
     /**
      * The Http Client.
-     * @var \GuzzleHttp\Client
+     *
+     * @var Client
      */
     protected $client;
 
     /**
      * Initialise a new Google Chat Channel instance.
      *
-     * @param \GuzzleHttp\Client $client
      * @return void
      */
     public function __construct(Client $client)
@@ -30,10 +30,9 @@ class GoogleChatChannel
     /**
      * Send the given notification.
      *
-     * @param mixed $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param  mixed  $notifiable
      *
-     * @throws \NotificationChannels\GoogleChat\Exceptions\CouldNotSendNotification
+     * @throws CouldNotSendNotification
      */
     public function send($notifiable, Notification $notification)
     {
@@ -41,7 +40,7 @@ class GoogleChatChannel
             throw CouldNotSendNotification::undefinedMethod($notification);
         }
 
-        /** @var \NotificationChannels\GoogleChat\GoogleChatMessage $message */
+        /** @var GoogleChatMessage $message */
         if (! ($message = $notification->toGoogleChat($notifiable)) instanceof GoogleChatMessage) {
             throw CouldNotSendNotification::invalidMessage($message);
         }

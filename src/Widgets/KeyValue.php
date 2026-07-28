@@ -8,9 +8,6 @@ class KeyValue extends AbstractWidget
 {
     /**
      * Set the top label text.
-     *
-     * @param string $message
-     * @return self
      */
     public function topLabel(string $message): KeyValue
     {
@@ -21,9 +18,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Set the content text.
-     *
-     * @param string $message
-     * @return self
      */
     public function content(string $message): KeyValue
     {
@@ -34,9 +28,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Set the bottom label text.
-     *
-     * @param string $message
-     * @return self
      */
     public function bottomLabel(string $message): KeyValue
     {
@@ -47,9 +38,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Set the content multiline property.
-     *
-     * @param bool $value
-     * @return self
      */
     public function setContentMultiline(bool $value): KeyValue
     {
@@ -60,9 +48,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Make the widget clickable through to the provided link.
-     *
-     * @param string $url
-     * @return self
      */
     public function onClick(string $url): KeyValue
     {
@@ -77,9 +62,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Set the icon of this widget.
-     *
-     * @param string $icon
-     * @return self
      */
     public function icon(string $icon): KeyValue
     {
@@ -90,9 +72,6 @@ class KeyValue extends AbstractWidget
 
     /**
      * Set the button of the widget.
-     *
-     * @param \NotificationChannels\GoogleChat\Components\Button\AbstractButton $button
-     * @return self
      */
     public function button(AbstractButton $button): KeyValue
     {
@@ -103,13 +82,8 @@ class KeyValue extends AbstractWidget
 
     /**
      * Return a new Key Value widget instance.
-     *
-     * @param string|null $topLabel
-     * @param string|null $content
-     * @param string|null $bottomLabel
-     * @return self
      */
-    public static function create(string $topLabel = null, string $content = null, string $bottomLabel = null): KeyValue
+    public static function create(?string $topLabel = null, ?string $content = null, ?string $bottomLabel = null): KeyValue
     {
         $widget = new static;
 

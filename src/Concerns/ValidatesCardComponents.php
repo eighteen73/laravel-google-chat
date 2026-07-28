@@ -9,8 +9,6 @@ trait ValidatesCardComponents
     /**
      * Ensure that the provided array contains only instances of the provided type, or
      * throw an exception otherwise.
-     *
-     * @return self
      */
     protected function guardOnlyInstancesOf(string $class, array $bucket): self
     {

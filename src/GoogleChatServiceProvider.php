@@ -15,7 +15,7 @@ class GoogleChatServiceProvider extends ServiceProvider
         $this->app->when(GoogleChatChannel::class)
             ->needs(GuzzleClient::class)
             ->give(function () {
-                return new GuzzleClient();
+                return new GuzzleClient;
             });
 
         $this->publishes([

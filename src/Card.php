@@ -22,13 +22,12 @@ class Card implements Arrayable
     /**
      * Configure the header content of the card.
      *
-     * @param string $title The title of the card, usually the bot or service name
-     * @param string|null $subtitle Secondary text displayed below the title
-     * @param string|null $imageUrl Display a particular avatar image for the message
-     * @param string|null $imageStyle Configure the avatar image style, one of IMAGE or AVATAR
-     * @return self
+     * @param  string  $title  The title of the card, usually the bot or service name
+     * @param  string|null  $subtitle  Secondary text displayed below the title
+     * @param  string|null  $imageUrl  Display a particular avatar image for the message
+     * @param  string|null  $imageStyle  Configure the avatar image style, one of IMAGE or AVATAR
      */
-    public function header(string $title, string $subtitle = null, string $imageUrl = null, string $imageStyle = null): Card
+    public function header(string $title, ?string $subtitle = null, ?string $imageUrl = null, ?string $imageStyle = null): Card
     {
         $header = [
             'title' => $title,
@@ -54,8 +53,7 @@ class Card implements Arrayable
     /**
      * Add one or more sections to the card.
      *
-     * @param \NotificationChannels\GoogleChat\Section|\NotificationChannels\GoogleChat\Section[]
-     * @return self
+     * @param Section|Section[]
      */
     public function section($section): Card
     {
@@ -81,8 +79,7 @@ class Card implements Arrayable
     /**
      * Return a new Google Chat Card instance.
      *
-     * @param \NotificationChannels\GoogleChat\Section|\NotificationChannels\GoogleChat\Section[]|null $section
-     * @return self
+     * @param  Section|Section[]|null  $section
      */
     public static function create($section = null): Card
     {

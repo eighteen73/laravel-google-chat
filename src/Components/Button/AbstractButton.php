@@ -16,9 +16,6 @@ abstract class AbstractButton implements Arrayable
 
     /**
      * Set the onClick url.
-     *
-     * @param string $url
-     * @return self
      */
     public function url(string $url): self
     {
@@ -40,8 +37,8 @@ abstract class AbstractButton implements Arrayable
     {
         $class = Str::of(
             Str::of(get_called_class())
-                    ->explode('\\')
-                    ->last()
+                ->explode('\\')
+                ->last()
         )
             ->camel();
 
