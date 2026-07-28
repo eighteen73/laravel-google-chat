@@ -9,12 +9,12 @@
 <a href="https://github.com/laravel-notification-channels/google-chat/actions?query=workflow%3A%22Check+%26+fix+styling%22+branch%3Amain"><img alt="GitHub Code Style Action" src="https://img.shields.io/github/workflow/status/laravel-notification-channels/google-chat/Check%20&%20fix%20styling/main?label=code%20style&style=flat-square"></a>
 <a href="https://packagist.org/packages/laravel-notification-channels/google-chat"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/laravel-notification-channels/google-chat.svg?style=flat-square"></a>
 <a href="composer.json"><img alt="PHP Version Requirements" src="https://img.shields.io/packagist/php-v/laravel-notification-channels/google-chat?style=flat-square"></a>
-<a href="composer.json"><img alt="Laravel Version Requirements" src="https://img.shields.io/badge/laravel-~9.0.2-gray?logo=laravel&style=flat-square&labelColor=F05340&logoColor=white"></a>
+<a href="composer.json"><img alt="Laravel Version Requirements" src="https://img.shields.io/badge/laravel-9.x--13.x-gray?logo=laravel&style=flat-square&labelColor=F05340&logoColor=white"></a>
 </p>
 
 <h1>Google Chat - Laravel Notification Channel</h1>
 
-This package makes it easy to send notifications using [Google Chat](https://developers.google.com/hangouts/chat) , (formerly known as Hangouts Chat) with Laravel 9.x
+This package makes it easy to send notifications using [Google Chat](https://developers.google.com/hangouts/chat) , (formerly known as Hangouts Chat) with Laravel 9.x to 13.x
 
 ````php
 class InvoicePaidNotification extends Notification
@@ -306,6 +306,7 @@ The `GoogleChatMessage` class encompasses an entire message that will be sent to
 
 - `static create(?string $text)` Instantiates and returns a new `GoogleChatMessage` instance, optionally pre-configuring it with the provided simple text
 - `to(string $space)` Specifies the webhook or space key this notification will be sent to. This takes precedence over the default space and any value returned by a notifiable's `routeNotificationForGoogleChat()` method
+- `thread(string $thread)` Start or reply to a message thread (in supported spaces)
 - `text(string $message)` Appends `$message` to the simple message content
 - `line(string $message)` Appends `$message` on a new line
 - `bold(string $message)` Appends bold text
@@ -428,6 +429,12 @@ The `ImageButton` defines a clickable icon or image, and can be accepted anywher
 - `static create(?string $url, ?string $icon)` Instantiates and returns a new `ImageButton` instance, optionally pre-configuring it with the provided URL and icon
 - `url(string $url)` Defines the target endpoint for the button
 - `icon(string $icon)` Defines the icon or image to display for the button.
+
+### Message Threads
+
+If you are posting into a space that supports [conversation by topic](https://support.google.com/mail/answer/12176488) you may set a known thread key in order to reply to a specific message thread. Using a new/unrecognized key will automatically begin a new message thread within the space which may be replied to later by using that same key again.
+
+By default the reference will be passed as a threadKey which is the most common requirement. Adding `true` as a second parameter in `thread('my_thread_ref', true)` will pass it as a thread name instead. Refer to the [Chat API](https://developers.google.com/chat/api/guides/crudl/messages#start_or_reply_to_a_message_thread) for more details.
 
 ## Changelog
 
