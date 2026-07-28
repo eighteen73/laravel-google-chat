@@ -169,6 +169,33 @@ class GoogleChatChannelTest extends TestCase
         $this->newChannel($client)->send($notifiable, $notification);
     }
 
+    public function test_it_overrides_destination_when_test_space_configured()
+    {
+        config([
+            'google-chat.space' => 'https://chat.googleapis.com/default-space',
+            'google-chat.test_space' => 'https://chat.googleapis.com/override-test-space',
+        ]);
+
+        $notifiable = $this->newNotifiable('https://chat.googleapis.com/notifiable-space');
+
+        $notification = $this->newNotification()
+            ->setSpace('https://chat.googleapis.com/notification-space');
+
+        $response = $this->createMock(Response::class);
+
+        $client = $this->createMock(Client::class);
+        $client->expects($this->once())
+            ->method('request')
+            ->with(
+                'post',
+                'https://chat.googleapis.com/override-test-space',
+                ['json' => $notification->toGoogleChat($notifiable)->toArray()]
+            )
+            ->willReturn($response);
+
+        $this->newChannel($client)->send($notifiable, $notification);
+    }
+
     public function test_it_handles_client_exceptions()
     {
         $notifiable = $this->newNotifiable('//uri');

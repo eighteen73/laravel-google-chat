@@ -50,6 +50,7 @@ class InvoicePaidNotification extends Notification
 	- [Default Room](#default-room)
 	- [Alternate Rooms (Preferred)](#alternate-rooms-preferred)
 	- [Explicit Webhook Routing](#explicit-webhook-routing)
+	- [Test Space / Local Override](#test-space--local-override)
 - [Usage](#usage)
 	- [Simple Messages](#simple-messages)
 	- [Card Messages](#card-messages)
@@ -157,6 +158,20 @@ public function routeNotificationForGoogleChat()
     return 'https://chat.googleapis.com/xxxxx';
 }
 ````
+
+### Test Space / Local Override
+
+During local development, you may want to redirect all notifications to a personal test space without modifying notification routing throughout your application. You can configure `test_space` or set the `GOOGLE_CHAT_TEST_SPACE` environment variable:
+
+````php
+// config/google-chat.php
+
+return [
+    'test_space' => env('GOOGLE_CHAT_TEST_SPACE', null),
+];
+````
+
+When set, any message sent via the Google Chat channel will be overridden to route to this test space endpoint.
 
 ## Usage
 

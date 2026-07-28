@@ -46,7 +46,8 @@ class GoogleChatChannel
             throw CouldNotSendNotification::invalidMessage($message);
         }
 
-        $space = $message->getSpace()
+        $space = config('google-chat.test_space')
+            ?? $message->getSpace()
             ?? $notifiable->routeNotificationFor('googleChat')
             ?? config('google-chat.space');
 

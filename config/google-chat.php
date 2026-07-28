@@ -27,4 +27,13 @@ return [
     'spaces' => [
         // 'sales_team' => 'https://chat.googleapis.com/...'
     ],
+
+    /**
+     * Test Space Webhook Url.
+     *
+     * When set, all messages will be redirected to this webhook URL regardless of
+     * the space defined on the notification or notifiable. This is useful during
+     * local development.
+     */
+    'test_space' => env('GOOGLE_CHAT_TEST_SPACE', null),
 ];

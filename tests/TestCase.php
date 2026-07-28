@@ -13,4 +13,9 @@ class TestCase extends TestbenchTestCase
             GoogleChatServiceProvider::class,
         ];
     }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('google-chat.test_space', null);
+    }
 }
