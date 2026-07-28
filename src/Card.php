@@ -68,10 +68,8 @@ class Card implements Arrayable
 
     /**
      * Serialize the card to an array representation.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->payload;
     }

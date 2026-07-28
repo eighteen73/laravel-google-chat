@@ -11,30 +11,17 @@ use NotificationChannels\GoogleChat\Exceptions\CouldNotSendNotification;
 class GoogleChatChannel
 {
     /**
-     * The Http Client.
-     *
-     * @var Client
-     */
-    protected $client;
-
-    /**
      * Initialise a new Google Chat Channel instance.
-     *
-     * @return void
      */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+    public function __construct(protected Client $client) {}
 
     /**
      * Send the given notification.
      *
-     * @param  mixed  $notifiable
      *
      * @throws CouldNotSendNotification
      */
-    public function send($notifiable, Notification $notification)
+    public function send(mixed $notifiable, Notification $notification): ?self
     {
         if (! method_exists($notification, 'toGoogleChat')) {
             throw CouldNotSendNotification::undefinedMethod($notification);

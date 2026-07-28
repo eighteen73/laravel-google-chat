@@ -30,20 +30,13 @@ abstract class AbstractButton implements Arrayable
 
     /**
      * Return the array representation of this button.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
-        $class = Str::of(
-            Str::of(get_called_class())
-                ->explode('\\')
-                ->last()
-        )
-            ->camel();
+        $class = Str::camel(class_basename(static::class));
 
         return [
-            (string) $class => $this->payload,
+            $class => $this->payload,
         ];
     }
 }

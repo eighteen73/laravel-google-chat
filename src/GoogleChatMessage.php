@@ -206,10 +206,8 @@ class GoogleChatMessage implements Arrayable
 
     /**
      * Serialize the message to an array representation.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->castNestedArrayables($this->payload);
     }
@@ -217,11 +215,8 @@ class GoogleChatMessage implements Arrayable
     /**
      * Recursively attempt to cast arrayable values within an array to their
      * primitive representation.
-     *
-     * @param  mixed  $value
-     * @return mixed
      */
-    private function castNestedArrayables($value)
+    private function castNestedArrayables(mixed $value): mixed
     {
         if ($value instanceof Arrayable) {
             $value = $value->toArray();

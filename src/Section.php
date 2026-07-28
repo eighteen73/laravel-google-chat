@@ -48,10 +48,8 @@ class Section implements Arrayable
 
     /**
      * Serialize the section to an array representation.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->payload;
     }

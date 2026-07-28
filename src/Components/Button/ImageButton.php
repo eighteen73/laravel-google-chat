@@ -9,9 +9,9 @@ class ImageButton extends AbstractButton
      */
     public function icon(string $icon): ImageButton
     {
-        strpos($icon, '://') === false
-            ? $this->setIconByName($icon)
-            : $this->setIconByUrl($icon);
+        str_contains($icon, '://')
+            ? $this->setIconByUrl($icon)
+            : $this->setIconByName($icon);
 
         return $this;
     }

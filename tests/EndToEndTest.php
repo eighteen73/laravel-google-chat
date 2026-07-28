@@ -4,6 +4,7 @@ namespace NotificationChannels\GoogleChat\Tests;
 
 use Illuminate\Support\Facades\Notification;
 use NotificationChannels\GoogleChat\Tests\Fixtures\TestEndToEndNotification;
+use PHPUnit\Framework\Attributes\Group;
 
 class EndToEndTest extends TestCase
 {
@@ -129,10 +130,15 @@ class EndToEndTest extends TestCase
         );
     }
 
-    /** @group external */
+    #[Group('external')]
     public function test_it_can_send_message_to_google()
     {
-        Notification::route('googleChat', env('GOOGLE_CHAT_TEST_SPACE'))
+        $testSpace = env('GOOGLE_CHAT_TEST_SPACE');
+        if (! $testSpace) {
+            $this->markTestSkipped('GOOGLE_CHAT_TEST_SPACE environment variable is not configured.');
+        }
+
+        Notification::route('googleChat', $testSpace)
             ->notify($this->notification);
 
         $this->assertTrue(true);
