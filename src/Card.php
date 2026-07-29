@@ -53,9 +53,9 @@ class Card implements Arrayable
     /**
      * Add one or more sections to the card.
      *
-     * @param Section|Section[]
+     * @param  Section|Section[]  $section
      */
-    public function section($section): Card
+    public function section(mixed $section): Card
     {
         $sections = Arr::wrap($section);
 

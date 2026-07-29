@@ -15,7 +15,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append bold text context.
+     * Append bold text content.
      */
     public function bold(string $message): TextParagraph
     {
@@ -23,7 +23,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append italic text context.
+     * Append italic text content.
      */
     public function italic(string $message): TextParagraph
     {
@@ -31,7 +31,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append underline text context.
+     * Append underline text content.
      */
     public function underline(string $message): TextParagraph
     {
@@ -39,7 +39,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append strikethrough text context.
+     * Append strikethrough text content.
      */
     public function strikethrough(string $message): TextParagraph
     {
@@ -47,7 +47,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append strikethrough text context.
+     * Append strikethrough text content.
      */
     public function strike(string $message): TextParagraph
     {
@@ -55,7 +55,7 @@ class TextParagraph extends AbstractWidget
     }
 
     /**
-     * Append colored text context.
+     * Append colored text content.
      */
     public function color(string $message, string $hex): TextParagraph
     {

@@ -27,8 +27,9 @@ class GoogleChatChannel
             throw CouldNotSendNotification::undefinedMethod($notification);
         }
 
-        /** @var GoogleChatMessage $message */
-        if (! ($message = $notification->toGoogleChat($notifiable)) instanceof GoogleChatMessage) {
+        $message = $notification->toGoogleChat($notifiable);
+
+        if (! $message instanceof GoogleChatMessage) {
             throw CouldNotSendNotification::invalidMessage($message);
         }
 
@@ -42,7 +43,7 @@ class GoogleChatChannel
         }
 
         if ($message->isThreaded()) {
-            $endpoint .= '&messageReplyOption=REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD';
+            $endpoint .= (str_contains($endpoint, '?') ? '&' : '?').'messageReplyOption=REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD';
         }
 
         try {
