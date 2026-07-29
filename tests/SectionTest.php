@@ -39,7 +39,11 @@ class SectionTest extends TestCase
         $this->assertEquals(
             [
                 'widgets' => [
-                    $widget,
+                    [
+                        'textParagraph' => [
+                            'text' => 'Text content',
+                        ],
+                    ],
                 ],
             ],
             $section->toArray()

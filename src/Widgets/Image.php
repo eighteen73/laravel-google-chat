@@ -29,9 +29,27 @@ class Image extends AbstractWidget
     }
 
     /**
+     * Set the alternative text for accessibility.
+     */
+    public function altText(string $altText): static
+    {
+        $this->payload['altText'] = $altText;
+
+        return $this;
+    }
+
+    /**
+     * Make the widget clickable through to the provided link.
+     */
+    public function openUrl(string $url): static
+    {
+        return $this->onClick($url);
+    }
+
+    /**
      * Return a new Image widget instance.
      */
-    public static function create(?string $imageUrl = null, ?string $onClickUrl = null): Image
+    public static function create(?string $imageUrl = null, ?string $onClickUrl = null): static
     {
         $widget = new static;
 
@@ -44,5 +62,13 @@ class Image extends AbstractWidget
         }
 
         return $widget;
+    }
+
+    /**
+     * Return a new Image widget instance.
+     */
+    public static function make(?string $imageUrl = null, ?string $onClickUrl = null): static
+    {
+        return static::create($imageUrl, $onClickUrl);
     }
 }

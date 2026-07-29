@@ -7,7 +7,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Google Chat Test Suite">
-            <directory>tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <source>

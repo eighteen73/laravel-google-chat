@@ -196,14 +196,48 @@ class GoogleChatMessageTest extends TestCase
 
         $this->assertEquals(
             [
-                'cards' => [
+                'cardsV2' => [
                     [
-                        'sections' => [],
+                        'cardId' => 'card-1',
+                        'card' => [
+                            'sections' => [],
+                        ],
                     ],
                 ],
             ],
             $message->toArray()
         );
+    }
+
+    public function test_it_supports_closure_card_builder()
+    {
+        $message = GoogleChatMessage::create()
+            ->card(fn (Card $c) => $c->id('custom-id')->header('Title'));
+
+        $this->assertEquals(
+            [
+                'cardsV2' => [
+                    [
+                        'cardId' => 'custom-id',
+                        'card' => [
+                            'header' => ['title' => 'Title'],
+                            'sections' => [],
+                        ],
+                    ],
+                ],
+            ],
+            $message->toArray()
+        );
+    }
+
+    public function test_it_supports_update_message()
+    {
+        $message = GoogleChatMessage::create('Updated')
+            ->updateMessage('spaces/AAAA/messages/BBB', ['cardsV2', 'text']);
+
+        $this->assertTrue($message->isUpdate());
+        $this->assertEquals('spaces/AAAA/messages/BBB', $message->getUpdateMessageName());
+        $this->assertEquals(['cardsV2', 'text'], $message->getUpdateMask());
     }
 
     public function test_it_creates_threaded_messages_by_key()

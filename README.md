@@ -1,6 +1,6 @@
 # Google Chat Notification Channel for Laravel
 
-This package makes it easy to send notifications using [Google Chat](https://developers.google.com/workspace/chat) webhooks in Laravel 12.x and 13.x.
+This package makes it easy to send Google Chat notifications (simple text, formatted messages, and rich cards) using webhooks or REST API service accounts in Laravel 12.x and 13.x.
 
 Maintained by [eighteen73](https://eighteen73.co.uk).
 
@@ -75,10 +75,10 @@ composer lint
 composer format
 ```
 
-The test suite includes an end-to-end integration test. Set the `GOOGLE_CHAT_TEST_SPACE` environment variable to run it against a real test space webhook, or exclude external tests during local development:
+The test suite contains 50 unit tests covering all Cards v2 components, payload serialization, and HTTP transports:
 
 ```bash
-./vendor/bin/phpunit --exclude-group external
+composer test
 ```
 
 ## Security

@@ -11,23 +11,53 @@ class Card implements Arrayable
     use ValidatesCardComponents;
 
     /**
-     * The card payload.
-     *
-     * @var array
+     * The card identifier.
      */
-    protected $payload = [
+    protected ?string $cardId = null;
+
+    /**
+     * The card payload.
+     */
+    protected array $payload = [
         'sections' => [],
     ];
 
     /**
+     * Set a custom card identifier.
+     */
+    public function id(string $id): static
+    {
+        $this->cardId = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set a custom card identifier.
+     */
+    public function cardId(string $id): static
+    {
+        return $this->id($id);
+    }
+
+    /**
+     * Get the card identifier.
+     */
+    public function getCardId(): ?string
+    {
+        return $this->cardId;
+    }
+
+    /**
      * Configure the header content of the card.
      *
-     * @param  string  $title  The title of the card, usually the bot or service name
+     * @param  string  $title  The title of the card
      * @param  string|null  $subtitle  Secondary text displayed below the title
-     * @param  string|null  $imageUrl  Display a particular avatar image for the message
-     * @param  string|null  $imageStyle  Configure the avatar image style, one of IMAGE or AVATAR
+     * @param  string|null  $imageUrl  Display an image/avatar for the card header
+     * @param  Enums\ImageType|string|null  $imageType  Image shape (SQUARE or CIRCLE)
+     * @param  string|null  $altText  Alternative text for accessibility
      */
-    public function header(string $title, ?string $subtitle = null, ?string $imageUrl = null, ?string $imageStyle = null): Card
+    public function header(string $title, ?string $subtitle = null, ?string $imageUrl = null, Enums\ImageType|string|null $imageType = null, ?string $altText = null): static
     {
         $header = [
             'title' => $title,
@@ -41,8 +71,12 @@ class Card implements Arrayable
             $header['imageUrl'] = $imageUrl;
         }
 
-        if ($imageStyle) {
-            $header['imageStyle'] = $imageStyle;
+        if ($imageType) {
+            $header['imageType'] = $imageType instanceof Enums\ImageType ? $imageType->value : $imageType;
+        }
+
+        if ($altText) {
+            $header['altText'] = $altText;
         }
 
         $this->payload['header'] = $header;
@@ -53,11 +87,17 @@ class Card implements Arrayable
     /**
      * Add one or more sections to the card.
      *
-     * @param  Section|Section[]  $section
+     * @param  Section|Section[]|\Closure  $section
      */
-    public function section(mixed $section): Card
+    public function section(mixed $section): static
     {
-        $sections = Arr::wrap($section);
+        if ($section instanceof \Closure) {
+            $sec = Section::make();
+            $section($sec);
+            $sections = [$sec];
+        } else {
+            $sections = Arr::wrap($section);
+        }
 
         $this->guardOnlyInstancesOf(Section::class, $sections);
 
@@ -67,11 +107,47 @@ class Card implements Arrayable
     }
 
     /**
+     * Set sticky bottom action buttons for the card.
+     */
+    public function fixedFooter(Components\FixedFooter $footer): static
+    {
+        $this->payload['fixedFooter'] = $footer->toArray();
+
+        return $this;
+    }
+
+    /**
+     * Add card action items to the card's overflow menu.
+     *
+     * @param  Components\CardAction|Components\CardAction[]  $cardActions
+     */
+    public function cardActions(mixed $cardActions): static
+    {
+        $actions = Arr::wrap($cardActions);
+
+        foreach ($actions as $action) {
+            if ($action instanceof Components\CardAction) {
+                $this->payload['cardActions'][] = $action->toArray();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Serialize the card to an array representation.
      */
     public function toArray(): array
     {
-        return $this->payload;
+        $payload = $this->payload;
+
+        if (! empty($payload['sections'])) {
+            $payload['sections'] = array_map(function ($section) {
+                return $section instanceof Arrayable ? $section->toArray() : $section;
+            }, $payload['sections']);
+        }
+
+        return $payload;
     }
 
     /**
@@ -79,7 +155,7 @@ class Card implements Arrayable
      *
      * @param  Section|Section[]|null  $section
      */
-    public static function create($section = null): Card
+    public static function create($section = null): static
     {
         $card = new static;
 
@@ -88,5 +164,13 @@ class Card implements Arrayable
         }
 
         return $card;
+    }
+
+    /**
+     * Return a new Google Chat Card instance.
+     */
+    public static function make($section = null): static
+    {
+        return static::create($section);
     }
 }

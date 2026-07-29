@@ -47,11 +47,95 @@ class Section implements Arrayable
     }
 
     /**
+     * Set whether the section is collapsible.
+     */
+    public function collapsible(bool $collapsible = true, int $uncollapsibleWidgetsCount = 1): static
+    {
+        $this->payload['collapsible'] = $collapsible;
+        $this->payload['uncollapsibleWidgetsCount'] = $uncollapsibleWidgetsCount;
+
+        return $this;
+    }
+
+    /**
+     * Add a DecoratedText widget.
+     */
+    public function decoratedText(Widgets\DecoratedText|string $text, ?string $topLabel = null, Enums\Icon|string|null $startIcon = null): static
+    {
+        if ($text instanceof Widgets\DecoratedText) {
+            return $this->widget($text);
+        }
+
+        $widget = Widgets\DecoratedText::make($text);
+
+        if ($topLabel) {
+            $widget->topLabel($topLabel);
+        }
+
+        if ($startIcon) {
+            $widget->startIcon($startIcon);
+        }
+
+        return $this->widget($widget);
+    }
+
+    /**
+     * Add a Divider widget.
+     */
+    public function divider(): static
+    {
+        return $this->widget(Widgets\Divider::make());
+    }
+
+    /**
+     * Add a ButtonList widget.
+     */
+    public function buttonList(Components\Button|array $buttons): static
+    {
+        return $this->widget(Widgets\ButtonList::make($buttons));
+    }
+
+    /**
+     * Add a Columns widget.
+     */
+    public function columns(array|\Closure $widgets): static
+    {
+        $col = Widgets\Columns::make();
+        $col->column($widgets);
+
+        return $this->widget($col);
+    }
+
+    /**
+     * Add a TextParagraph widget.
+     */
+    public function textParagraph(?string $text = null): static
+    {
+        return $this->widget(Widgets\TextParagraph::make($text));
+    }
+
+    /**
+     * Add an Image widget.
+     */
+    public function image(?string $imageUrl = null, ?string $onClickUrl = null): static
+    {
+        return $this->widget(Widgets\Image::make($imageUrl, $onClickUrl));
+    }
+
+    /**
      * Serialize the section to an array representation.
      */
     public function toArray(): array
     {
-        return $this->payload;
+        $payload = $this->payload;
+
+        if (! empty($payload['widgets'])) {
+            $payload['widgets'] = array_map(function ($widget) {
+                return $widget instanceof Arrayable ? $widget->toArray() : $widget;
+            }, $payload['widgets']);
+        }
+
+        return $payload;
     }
 
     /**
@@ -59,7 +143,7 @@ class Section implements Arrayable
      *
      * @param  AbstractWidget|AbstractWidget[]  $widgets
      */
-    public static function create($widgets = null): Section
+    public static function create($widgets = null): static
     {
         $section = new static;
 
@@ -68,5 +152,13 @@ class Section implements Arrayable
         }
 
         return $section;
+    }
+
+    /**
+     * Return a new Google Chat Section instance.
+     */
+    public static function make($widgets = null): static
+    {
+        return static::create($widgets);
     }
 }

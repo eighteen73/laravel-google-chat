@@ -4,6 +4,7 @@ namespace NotificationChannels\GoogleChat\Exceptions;
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Client\Response;
 use NotificationChannels\GoogleChat\GoogleChatMessage;
 
 class CouldNotSendNotification extends Exception
@@ -99,6 +100,19 @@ class CouldNotSendNotification extends Exception
 
         return new static(
             "Failed to send Google Chat message, encountered client error: `{$statusCode} - {$description}`"
+        );
+    }
+
+    /**
+     * Thrown if Google Chat API or Webhook returns an error response.
+     *
+     * @param  Response  $response
+     * @return static
+     */
+    public static function serviceRespondedWithAnError($response)
+    {
+        return new static(
+            "Failed to send Google Chat message, encountered HTTP status {$response->status()}: {$response->body()}"
         );
     }
 

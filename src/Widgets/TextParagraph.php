@@ -81,7 +81,7 @@ class TextParagraph extends AbstractWidget
     /**
      * Return a new Text Paragraph widget instance.
      */
-    public static function create(?string $message = null): TextParagraph
+    public static function create(?string $message = null): static
     {
         $widget = new static;
 
@@ -90,5 +90,13 @@ class TextParagraph extends AbstractWidget
         }
 
         return $widget;
+    }
+
+    /**
+     * Return a new Text Paragraph widget instance.
+     */
+    public static function make(?string $message = null): static
+    {
+        return static::create($message);
     }
 }
