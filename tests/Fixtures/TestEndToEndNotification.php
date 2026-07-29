@@ -37,12 +37,12 @@ class TestEndToEndNotification extends Notification
                                 'Content',
                                 'Bottom Label'
                             )
-                            ->icon('TRAIN')
-                            ->onClick('https://example.com/key-value-click')
-                            ->setContentMultiline(true)
-                            ->button(
-                                ImageButton::create('https://example.com/key-value-button-click', 'https://picsum.photos/64/64')
-                            )
+                                ->icon('TRAIN')
+                                ->onClick('https://example.com/key-value-click')
+                                ->setContentMultiline(true)
+                                ->button(
+                                    ImageButton::create('https://example.com/key-value-button-click', 'https://picsum.photos/64/64')
+                                )
                         )
                         ->widget(
                             Image::create('https://picsum.photos/300/150', 'https://example.com/img-clickthrough')

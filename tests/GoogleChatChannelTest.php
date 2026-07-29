@@ -29,9 +29,9 @@ class GoogleChatChannelTest extends TestCase
     {
         $notification = $this->createMock(TestNotification::class);
         $notification->expects($this->once())
-        ->method('toGoogleChat')
-        ->with('notifiable')
-        ->willReturn('This value is invalid, as it is not an instance of Google Chat Message');
+            ->method('toGoogleChat')
+            ->with('notifiable')
+            ->willReturn('This value is invalid, as it is not an instance of Google Chat Message');
 
         $this->expectException(CouldNotSendNotification::class);
         $this->expectExceptionMessage("Expected a message instance of type NotificationChannels\GoogleChat\GoogleChatMessage - Actually received string");
@@ -43,7 +43,8 @@ class GoogleChatChannelTest extends TestCase
     {
         $notification = $this->newNotification();
 
-        $notifiable = new class {
+        $notifiable = new class
+        {
             use Notifiable;
         };
 
@@ -57,7 +58,8 @@ class GoogleChatChannelTest extends TestCase
     {
         config(['google-chat.space' => 'https://chat.googleapis.com/default-space']);
 
-        $notifiable = new class {
+        $notifiable = new class
+        {
             use Notifiable;
         };
 

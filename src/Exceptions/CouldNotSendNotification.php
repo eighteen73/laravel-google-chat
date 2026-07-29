@@ -6,13 +6,13 @@ use Exception;
 use GuzzleHttp\Exception\ClientException;
 use NotificationChannels\GoogleChat\GoogleChatMessage;
 
-class CouldNotSendNotification extends \Exception
+class CouldNotSendNotification extends Exception
 {
     /**
      * Thrown if a notification instance does not implement a toGoogleChat() method, but is
      * attempting to be delivered via the Google Chat notification channel.
      *
-     * @param mixed $notification
+     * @param  mixed  $notification
      * @return static
      */
     public static function undefinedMethod($notification)
@@ -27,7 +27,7 @@ class CouldNotSendNotification extends \Exception
      * Thrown if a notification instance's toGoogleChat() method returns a value other than
      * an instance of \NotificationChannels\GoogleChat\GoogleChatMessage.
      *
-     * @param mixed $actual
+     * @param  mixed  $actual
      * @return static
      */
     public static function invalidMessage($actual)
@@ -46,9 +46,9 @@ class CouldNotSendNotification extends \Exception
     /**
      * Thrown if a message could not be built to an invalid argument being passed.
      *
-     * @param string $method
-     * @param string $expected
-     * @param mixed $actual
+     * @param  string  $method
+     * @param  string  $expected
+     * @param  mixed  $actual
      * @return static
      */
     public static function invalidArgument($method, $expected, $actual)
@@ -86,7 +86,6 @@ class CouldNotSendNotification extends \Exception
      * Thrown if a 400-level Http error was encountered whilst attempting to deliver the
      * notification.
      *
-     * @param \GuzzleHttp\Exception\ClientException $exception
      * @return static
      */
     public static function clientError(ClientException $exception)
@@ -107,7 +106,6 @@ class CouldNotSendNotification extends \Exception
      * Thrown if an unexpected exception was encountered whilst attempting to deliver the
      * notification.
      *
-     * @param \Exception $exception
      * @return static
      */
     public static function unexpectedException(Exception $exception)

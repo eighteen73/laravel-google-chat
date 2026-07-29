@@ -11,38 +11,25 @@ use NotificationChannels\GoogleChat\Exceptions\CouldNotSendNotification;
 class GoogleChatChannel
 {
     /**
-     * The Http Client.
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
      * Initialise a new Google Chat Channel instance.
-     *
-     * @param \GuzzleHttp\Client $client
-     * @return void
      */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+    public function __construct(protected Client $client) {}
 
     /**
      * Send the given notification.
      *
-     * @param mixed $notifiable
-     * @param \Illuminate\Notifications\Notification $notification
      *
-     * @throws \NotificationChannels\GoogleChat\Exceptions\CouldNotSendNotification
+     * @throws CouldNotSendNotification
      */
-    public function send($notifiable, Notification $notification)
+    public function send(mixed $notifiable, Notification $notification): ?self
     {
         if (! method_exists($notification, 'toGoogleChat')) {
             throw CouldNotSendNotification::undefinedMethod($notification);
         }
 
-        /** @var \NotificationChannels\GoogleChat\GoogleChatMessage $message */
-        if (! ($message = $notification->toGoogleChat($notifiable)) instanceof GoogleChatMessage) {
+        $message = $notification->toGoogleChat($notifiable);
+
+        if (! $message instanceof GoogleChatMessage) {
             throw CouldNotSendNotification::invalidMessage($message);
         }
 
@@ -56,7 +43,7 @@ class GoogleChatChannel
         }
 
         if ($message->isThreaded()) {
-            $endpoint .= '&messageReplyOption=REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD';
+            $endpoint .= (str_contains($endpoint, '?') ? '&' : '?').'messageReplyOption=REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD';
         }
 
         try {

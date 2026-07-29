@@ -6,24 +6,18 @@ class ImageButton extends AbstractButton
 {
     /**
      * Set the button icon.
-     *
-     * @param string $icon
-     * @return self
      */
     public function icon(string $icon): ImageButton
     {
-        strpos($icon, '://') === false
-            ? $this->setIconByName($icon)
-            : $this->setIconByUrl($icon);
+        str_contains($icon, '://')
+            ? $this->setIconByUrl($icon)
+            : $this->setIconByName($icon);
 
         return $this;
     }
 
     /**
      * Set an icon by its name.
-     *
-     * @param string $icon
-     * @return self
      */
     public function setIconByName(string $icon): ImageButton
     {
@@ -35,9 +29,6 @@ class ImageButton extends AbstractButton
 
     /**
      * Set an icon by url.
-     *
-     * @param string $url
-     * @return self
      */
     public function setIconByUrl(string $url): ImageButton
     {
@@ -50,11 +41,9 @@ class ImageButton extends AbstractButton
     /**
      * Create a new image button instance.
      *
-     * @param string|null $url
-     * @param string|null $icon Either an icon name or URL to the icon image
-     * @return self
+     * @param  string|null  $icon  Either an icon name or URL to the icon image
      */
-    public static function create(string $url = null, string $icon = null): ImageButton
+    public static function create(?string $url = null, ?string $icon = null): ImageButton
     {
         $button = new static;
 

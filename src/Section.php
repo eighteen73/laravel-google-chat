@@ -22,9 +22,6 @@ class Section implements Arrayable
 
     /**
      * Set the section header text.
-     *
-     * @param string $text
-     * @return self
      */
     public function header(string $text): Section
     {
@@ -36,8 +33,7 @@ class Section implements Arrayable
     /**
      * Add one or more widgets to this section.
      *
-     * @param \NotificationChannels\GoogleChat\Widgets\AbstractWidget|\NotificationChannels\GoogleChat\Widgets\AbstractWidget[] $widget
-     * @return self
+     * @param  AbstractWidget|AbstractWidget[]  $widget
      */
     public function widget($widget): Section
     {
@@ -52,10 +48,8 @@ class Section implements Arrayable
 
     /**
      * Serialize the section to an array representation.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->payload;
     }
@@ -63,8 +57,7 @@ class Section implements Arrayable
     /**
      * Return a new Google Chat Section instance.
      *
-     * @param \NotificationChannels\GoogleChat\Widgets\AbstractWidget|\NotificationChannels\GoogleChat\Widgets\AbstractWidget[] $widgets
-     * @return self
+     * @param  AbstractWidget|AbstractWidget[]  $widgets
      */
     public static function create($widgets = null): Section
     {
