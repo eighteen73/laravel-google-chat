@@ -25,11 +25,12 @@ return [
     ],
 
     /**
-     * Service Account Configuration (Required when driver is 'service_account').
+     * Service Account Credentials (Required when driver is 'service_account').
+     *
+     * 'credentials' specifies the path to a JSON key file, a JSON string, or array.
      */
     'service_account' => [
-        'access_token' => env('GOOGLE_CHAT_ACCESS_TOKEN', null),
-        'json_credentials_path' => env('GOOGLE_CHAT_CREDENTIALS_PATH', null),
+        'credentials' => env('GOOGLE_CHAT_CREDENTIALS'),
     ],
 
     /**

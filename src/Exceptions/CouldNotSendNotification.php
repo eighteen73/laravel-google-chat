@@ -130,4 +130,52 @@ class CouldNotSendNotification extends Exception
             $exception
         );
     }
+
+    /**
+     * Thrown if service account credentials are missing.
+     *
+     * @return static
+     */
+    public static function missingCredentials()
+    {
+        return new static(
+            'Google Chat Service Account driver requires `credentials` (JSON file path, JSON string, or array) to be configured.'
+        );
+    }
+
+    /**
+     * Thrown if service account credentials could not be parsed or are missing required keys.
+     *
+     * @return static
+     */
+    public static function invalidCredentials()
+    {
+        return new static(
+            'Invalid Google Chat Service Account credentials. Expected a valid JSON key file, array, or JSON string containing `client_email` and `private_key`.'
+        );
+    }
+
+    /**
+     * Thrown if JWT signing fails with OpenSSL.
+     *
+     * @return static
+     */
+    public static function jwtSigningFailed()
+    {
+        return new static(
+            'Failed to sign OAuth 2.0 JWT assertion using the provided Service Account private key via OpenSSL.'
+        );
+    }
+
+    /**
+     * Thrown if Google OAuth endpoint returns an error when fetching access token.
+     *
+     * @return static
+     */
+    public static function tokenFetchFailed(Response $response)
+    {
+        return new static(
+            "Failed to fetch OAuth 2.0 access token from Google, HTTP status {$response->status()}: {$response->body()}"
+        );
+    }
 }

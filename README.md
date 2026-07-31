@@ -4,6 +4,14 @@ This package makes it easy to send Google Chat notifications (simple text, forma
 
 Maintained by [eighteen73](https://eighteen73.co.uk).
 
+## Key Features
+
+* **Rich Cards v2 Engine:** Full support for interactive Google Chat Cards v2 with headers, sections, `DecoratedText`, `ButtonList`, `Divider`, `Columns`, and `FixedFooter`.
+* **Pluggable Transports:** Send notifications via lightweight space **Incoming Webhooks** or Google Cloud **Service Accounts**.
+* **Message Updates & Patching:** Update previously posted card messages dynamically using the Service Account transport.
+* **Thread Management:** Reply directly into existing threads using thread keys or message resource names.
+* **Fluent Builder Closures:** Clean `$message->card(fn (Card $c) => ...)` and `$card->section(fn (Section $s) => ...)` closures.
+
 ## Documentation
 
 Full developer documentation, configuration guides, card layout examples, and API references are available on our documentation site:
@@ -29,35 +37,46 @@ Publish the configuration file:
 php artisan vendor:publish --tag=google-chat-config
 ```
 
-## Quick Example
+## Quick Examples
+
+### Simple Text Notification
 
 ```php
-namespace App\Notifications;
-
-use Illuminate\Notifications\Notification;
-use NotificationChannels\GoogleChat\GoogleChatChannel;
-use NotificationChannels\GoogleChat\GoogleChatMessage;
-
-class InvoicePaidNotification extends Notification
+public function toGoogleChat(object $notifiable): GoogleChatMessage
 {
-    public function via(object $notifiable): array
-    {
-        return [
-            GoogleChatChannel::class,
-        ];
-    }
-
-    public function toGoogleChat(object $notifiable): GoogleChatMessage
-    {
-        return GoogleChatMessage::create()
-            ->bold('Invoice Paid!')
-            ->line('Payment was received successfully.')
-            ->to('sales');
-    }
+    return GoogleChatMessage::create()
+        ->bold('Invoice Paid!')
+        ->line('Payment of £450.00 was received successfully.')
+        ->to('sales');
 }
 ```
 
-For advanced features like card messages, custom space aliases, threading, and local test overrides, please refer to the [full documentation](https://docs.eighteen73.co.uk/laravel/google-chat).
+### Rich Card v2 Notification
+
+```php
+use NotificationChannels\GoogleChat\Card;
+use NotificationChannels\GoogleChat\Enums\Icon;
+use NotificationChannels\GoogleChat\Enums\ImageType;
+use NotificationChannels\GoogleChat\Section;
+
+public function toGoogleChat(object $notifiable): GoogleChatMessage
+{
+    return GoogleChatMessage::create()
+        ->to('alerts')
+        ->card(function (Card $card) {
+            $card->header('Server Alert', 'web-prod-01', ImageType::CIRCLE)
+                ->section(function (Section $section) {
+                    $section->decoratedText('CPU Utilisation', '94%', Icon::WARNING)
+                        ->divider()
+                        ->buttonList(function ($buttons) {
+                            $buttons->button('Open Dashboard', 'https://example.com/monitoring');
+                        });
+                });
+        });
+}
+```
+
+For advanced features like updating sent messages, Service Account setup, custom space aliases, threading, and local test overrides, please refer to the [full documentation](https://docs.eighteen73.co.uk/laravel/google-chat).
 
 ## Development & Testing
 
